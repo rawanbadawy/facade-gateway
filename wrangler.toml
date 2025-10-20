@@ -1,0 +1,25 @@
+# wrangler.toml — place this file next to package.json
+
+name = "automation-edge"
+main = "worker/src/index.ts"
+compatibility_date = "2024-10-01"
+
+# Bind the KV namespace you created
+[[kv_namespaces]]
+binding = "KV"
+id = "3be93ee18614466c81fb5d7c131b943a"
+
+[vars]
+# Public base URL of your Nest API (must be reachable from Cloudflare)
+# Examples:
+#   - https://api.your-domain.com
+#   - https://<your-cf-tunnel-subdomain>.trycloudflare.com
+UPSTREAM_URL = "https://YOUR_API_BASE_URL"
+
+# Optional comma-separated IPs to block at the edge
+DENYLIST = ""
+
+# You can set WEBHOOK_SECRET as a secret instead of plain text:
+#   npx wrangler secret put WEBHOOK_SECRET
+# If you still prefer a plain var for quick dev:
+# WEBHOOK_SECRET = "whsec_dev"
