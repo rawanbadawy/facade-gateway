@@ -1,4 +1,5 @@
-import { Module, MiddlewareConsumer } from '@nestjs/common';
+// src/metrics/metrics.module.ts
+import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { MetricsService } from './metrics.service';
 import { RequestMetricsMiddleware } from './request-metrics.middleware';
 import { MetricsController } from './metrics.controller';
@@ -9,7 +10,7 @@ import { PrometheusController } from './prometheus.controller';
   controllers: [MetricsController, PrometheusController],
   exports: [MetricsService],
 })
-export class MetricsModule {
+export class MetricsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(RequestMetricsMiddleware).forRoutes('*');
   }

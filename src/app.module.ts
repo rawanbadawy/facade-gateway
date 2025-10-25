@@ -1,4 +1,5 @@
-import { Module, MiddlewareConsumer } from '@nestjs/common';
+// src/app.module.ts
+import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { RedisModule } from './infra/redis/redis.module';
 import { IdempotencyModule } from './idempotency/idempotency.module';
@@ -32,7 +33,7 @@ import { RequestContextMiddleware } from './common/request-context.middleware';
   ],
   controllers: [AppController, FacadeController],
 })
-export class AppModule {
+export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(RequestContextMiddleware).forRoutes('*');
   }

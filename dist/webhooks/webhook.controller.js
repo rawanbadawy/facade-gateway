@@ -21,9 +21,13 @@ let WebhookController = class WebhookController {
         return (0, crypto_1.createHmac)('sha256', secret).update(raw).digest('hex');
     }
     receive(provider, sig, req) {
-        const raw = req?.rawBody instanceof Buffer
-            ? req.rawBody
-            : Buffer.from(JSON.stringify(req?.body ?? {}), 'utf8');
+        const raw = Buffer.isBuffer(req?.body)
+            ? req.body
+            : req?.rawBody instanceof Buffer
+                ? req.rawBody
+                : Buffer.from(typeof req?.body === 'string'
+                    ? req.body
+                    : JSON.stringify(req?.body ?? {}), 'utf8');
         const computedHex = this.hmacHex(raw);
         const providedHex = (sig ?? '').trim();
         const computedBuf = Buffer.from(computedHex, 'hex');
